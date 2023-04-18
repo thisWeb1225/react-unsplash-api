@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { ImageContext } from "../Index"
+import { ImageContext } from "../context/ImageContext"
 import Image from "./Image"
 import Skeleton from "./Skeleton"
 

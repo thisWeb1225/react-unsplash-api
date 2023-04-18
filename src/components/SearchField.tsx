@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
-import { ImageContext } from "../Index";
+import { ImageContext } from "../context/ImageContext"
+
 
 const SearchField = () => {
   const [searchValue, setSearchValue] = useState('');
