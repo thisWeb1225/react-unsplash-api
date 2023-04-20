@@ -1,16 +1,16 @@
 import { createContext } from "react";
 
 type ImageContextType = {
-  response: any,
+  images: any,
   isLoading: boolean,
   error: any,
-  fetchData: (url: string) => Promise<void>,
+  fetchData: (query: string, isSearch?: boolean) => Promise<void>,
   searchText: string,
   setSearchText?: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const initValue = {
-  response: [],
+  images: [],
   isLoading: false,
   error: null,
   fetchData: async () => { },

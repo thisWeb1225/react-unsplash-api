@@ -4,7 +4,7 @@ import Image from "./Image"
 import Skeleton from "./Skeleton"
 
 const Images = () => {
-  const {response, isLoading, searchText} = useContext(ImageContext)
+  const { images, isLoading, searchText } = useContext(ImageContext)
 
   return (
     <>
@@ -13,7 +13,7 @@ const Images = () => {
         {
           isLoading
           ? <Skeleton item={10}></Skeleton>
-          : response.map((data: any, i: number) => <Image key={i} data={data}></Image>) }
+            : images.map((data: any, i: number) => <Image key={i} data={data}></Image>)}
       </div>
     </>
   )

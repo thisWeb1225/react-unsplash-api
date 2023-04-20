@@ -4,24 +4,28 @@ import { ImageContext } from "../context/ImageContext"
 
 const SearchField = () => {
   const [searchValue, setSearchValue] = useState('');
-  const {fetchData, setSearchText} = useContext(ImageContext)
+  const { fetchData, searchText, setSearchText } = useContext(ImageContext)
 
   const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
   }
 
   const handleSearchButton = () => {
-    fetchData(`/search/photos?page=1&query=${searchValue}&client_id=${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}`)
+    fetchData(searchValue)
     setSearchText!(searchValue)
     setSearchValue("")
   }
 
   const handleSearchEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      fetchData(`/search/photos?page=1&query=${searchValue}&client_id=${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}`)
+      fetchData(searchValue)
       setSearchText!(searchValue)
       setSearchValue("")
     }
+  }
+
+  const loadMore = () => {
+    fetchData(searchText, false)
   }
 
   return (
@@ -39,6 +43,7 @@ const SearchField = () => {
           onClick={handleSearchButton}
           disabled={!searchValue}
           >Search</button>
+      <button className="bg-pink-200 text-slate-700" onClick={loadMore}>Load More</button>
     </div>
   )
 }
