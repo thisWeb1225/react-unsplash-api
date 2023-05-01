@@ -1,46 +1,46 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import fetchUnsplashImgs from "../api/api";
 
 const useFetchImgs = (query: string) => {
   const [images, setImages] = useState([] as any);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
 
-  const fetchData = async (query: string, isSearch = true) => {
+  const fetchData = useCallback(async (query: string, isSearch: boolean, page: number = 1) => {
     try {
       setIsLoading(true);
-      const res = await axios({
-        method: 'GET',
-        url: 'https://api.unsplash.com/search/photos',
-        params: {
-          query,
-          page: isSearch ? 1 : page,
-          client_id: import.meta.env.VITE_UNSPLASH_ACCESS_KEY
-        }
-      });
+
+      const res = await fetchUnsplashImgs(query, page);
 
       setImages((prev: any[]) => {
         const resultImages = isSearch ? res.data.results : [...prev, ...res.data.results];
         return resultImages;
       });
+
     } catch (err: any) {
       setError(err);
     } finally {
-      setIsLoading(false);
-      setPage((prev) => isSearch ? 2 : prev + 1);
+      setTimeout(() => setIsLoading(false), 1000)
     }
-  }
+  }, [query])
 
   useEffect(() => {
-    fetchData(query);
-  }, [query])
+    let shouldUpdate = true;
+    if (shouldUpdate) {
+      fetchData(query, true);
+    }
+    return () => {shouldUpdate = false;}
+  }, [fetchData, query])
 
   return {
     images,
     isLoading,
     error,
-    fetchData: (query: string, isSearch?: boolean) => fetchData(query, isSearch)
+    page,
+    setPage,
+    fetchData: (query: string, isSearch: boolean, page: number) => fetchData(query, isSearch, page)
   }
 }
 

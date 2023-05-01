@@ -4,18 +4,12 @@ type ImageContextType = {
   images: any,
   isLoading: boolean,
   error: any,
-  fetchData: (query: string, isSearch?: boolean) => Promise<void>,
+  fetchData: (query: string, isSearch: boolean, page: number) => Promise<void>,
+  page: number,
+  setPage: React.Dispatch<React.SetStateAction<number>>,
   searchText: string,
-  setSearchText?: React.Dispatch<React.SetStateAction<string>>
+  setSearchText?: React.Dispatch<React.SetStateAction<string>>,
 }
 
-export const initValue = {
-  images: [],
-  isLoading: false,
-  error: null,
-  fetchData: async () => { },
-  searchText: '',
-  setSearchText: () => { }
-}
-
-export const ImageContext = createContext<ImageContextType>(initValue);
+// @ts-ignore
+export const ImageContext = createContext<ImageContextType>({});

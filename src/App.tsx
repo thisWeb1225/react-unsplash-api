@@ -1,25 +1,24 @@
 import Jumbutron from './components/Jumbutron';
 import SearchField from './components/SearchField';
 import Images from './components/Images';
-import { useState } from 'react'
+import Footer from './components/Footer';
+import { useState, useRef, useEffect } from 'react'
 import useFetchImgs from './hooks/useFetchImgs';
-import { ImageContext, initValue } from './context/ImageContext';
+import { ImageContext } from './context/ImageContext';
 
 function App() {
   const [searchText, setSearchText] = useState('cat')
-  const { images, isLoading, error, fetchData } = useFetchImgs('cat');
+  const { images, isLoading, error, fetchData, page, setPage } = useFetchImgs('cat');
 
   const value = {
     images,
     isLoading,
     error,
     fetchData,
+    page,
+    setPage,
     searchText,
-    setSearchText
-  }
-
-  if (images === initValue.images) {
-    return <div>Loading ...</div>
+    setSearchText,
   }
 
   return (
@@ -28,6 +27,7 @@ function App() {
         <SearchField></SearchField>
       </Jumbutron>
       <Images></Images>
+      <Footer></Footer>
     </ImageContext.Provider>
   )
 }
