@@ -4,21 +4,39 @@ import Image from "./Image"
 import Skeleton from "./Skeleton"
 
 const Images = () => {
-  const { images, isLoading, fetchData, searchText } = useContext(ImageContext);
+  const { images, isLoading, searchText } = useContext(ImageContext);
+  const oldData = useRef([] as any)
 
-// <Skeleton item={10}></Skeleton>
+  useEffect(() => {
+    return () => {
+      oldData.current = images;
+    }
+  })
+  
 
-  const length = images.length;
-  const content: [] = images.map((data: any, i: number) => <Image key={i} data={data}></Image>)
+  let content;
+  
+  if(isLoading) {
+    content = (
+      <>
+        {oldData.current.map((data: any, i: number) => <Image key={i} data={data}></Image>)}
+        <Skeleton item={10}></Skeleton>
+      </>)
+  } else {
+    content = (
+      <>
+        {images.map((data: any, i: number) => <Image key={i} data={data}></Image>)}
+      </>
+    )
+  }
+
+
 
   return (
     <>
       <h2 className="text-center mt-6 underline text-2xl">Results for {searchText || 'cat'}</h2>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 my-10 max-w-7xl mx-auto px-4">
-        {
-          isLoading
-          ? <Skeleton item={length}></Skeleton>
-            : content}
+        {content}
       </div>
     </>
   )

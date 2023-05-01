@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 type ImageContextType = {
-  images: any,
+  images: [any],
   isLoading: boolean,
   error: any,
   fetchData: (query: string, isSearch: boolean, page: number) => Promise<void>,
