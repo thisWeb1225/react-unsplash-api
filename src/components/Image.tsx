@@ -1,9 +1,3 @@
-
-type ImageProp = {
-
-}
-
-
 const image = ({data}: any) => {
   return (
     <a href={data.urls.regular} target="_blank" rel="noreferrer">

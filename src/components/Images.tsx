@@ -13,9 +13,8 @@ const Images = () => {
     }
   })
   
-
   let content;
-  
+
   if(isLoading) {
     content = (
       <>
@@ -29,8 +28,6 @@ const Images = () => {
       </>
     )
   }
-
-
 
   return (
     <>

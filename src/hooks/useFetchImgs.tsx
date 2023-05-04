@@ -1,5 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import fetchUnsplashImgs from "../api/api";
+import fetchDataReducer from "../reducer/fetchReducer";
+
+
 
 const useFetchImgs = (query: string) => {
   const [images, setImages] = useState([] as any);
@@ -7,11 +10,17 @@ const useFetchImgs = (query: string) => {
   const [page, setPage] = useState(1);
   const [error, setError] = useState(null);
 
+  const [state, dispatch] = useReducer(fetchDataReducer, {
+    isLoading: false,
+    error: null
+  })
+
   const fetchData = useCallback(async (query: string, isSearch: boolean, page: number = 1) => {
     try {
-      setIsLoading(true);
+      dispatch({type:'FETCH_INIT'});
 
       const res = await fetchUnsplashImgs(query, page);
+      console.log(res)
 
       setImages((prev: any[]) => {
         const resultImages = isSearch ? res.data.results : [...prev, ...res.data.results];
@@ -19,9 +28,9 @@ const useFetchImgs = (query: string) => {
       });
 
     } catch (err: any) {
-      setError(err);
+      dispatch({type:'FETCH_FAILURE', payload: err});
     } finally {
-      setTimeout(() => setIsLoading(false), 1000)
+      setTimeout(() => dispatch({type:'FETCH_SUCCESS'}), 1000)
     }
   }, [query])
 
@@ -35,8 +44,8 @@ const useFetchImgs = (query: string) => {
 
   return {
     images,
-    isLoading,
-    error,
+    isLoading: state.isLoading,
+    error: state.error,
     page,
     setPage,
     fetchData: (query: string, isSearch: boolean, page: number) => fetchData(query, isSearch, page)
