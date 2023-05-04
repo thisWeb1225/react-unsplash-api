@@ -1,36 +1,36 @@
 import { useCallback, useEffect, useReducer, useState } from "react";
 import fetchUnsplashImgs from "../api/api";
 import fetchDataReducer from "../reducer/fetchReducer";
-
-
+import imgsReducer, {imgsReducerInitState} from "../reducer/imgsReducer";
 
 const useFetchImgs = (query: string) => {
   const [images, setImages] = useState([] as any);
-  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [error, setError] = useState(null);
 
-  const [state, dispatch] = useReducer(fetchDataReducer, {
+  const [fetchDataState, fetchDataDispatch] = useReducer(fetchDataReducer, {
     isLoading: false,
     error: null
   })
 
+  const [imgsState, imgsDispatch] = useReducer(imgsReducer, imgsReducerInitState)
+
   const fetchData = useCallback(async (query: string, isSearch: boolean, page: number = 1) => {
     try {
-      dispatch({type:'FETCH_INIT'});
+      fetchDataDispatch({type:'FETCH_INIT'});
 
       const res = await fetchUnsplashImgs(query, page);
-      console.log(res)
+      const imgs = await res.data.results;
 
-      setImages((prev: any[]) => {
-        const resultImages = isSearch ? res.data.results : [...prev, ...res.data.results];
-        return resultImages;
-      });
+      if (isSearch) {
+        imgsDispatch({type:'SEARCH', payload: imgs});
+      } else {
+        imgsDispatch({type:'LOADMORE', payload: imgs});
+      }
 
     } catch (err: any) {
-      dispatch({type:'FETCH_FAILURE', payload: err});
+      fetchDataDispatch({type:'FETCH_FAILURE', payload: err});
     } finally {
-      setTimeout(() => dispatch({type:'FETCH_SUCCESS'}), 1000)
+      setTimeout(() => fetchDataDispatch({type:'FETCH_SUCCESS'}), 1000)
     }
   }, [query])
 
@@ -43,11 +43,11 @@ const useFetchImgs = (query: string) => {
   }, [fetchData, query])
 
   return {
-    images,
-    isLoading: state.isLoading,
-    error: state.error,
-    page,
-    setPage,
+    images: imgsState.newData,
+    oldImages: imgsState.oldData,
+    isLoading: fetchDataState.isLoading,
+    error: fetchDataState.error,
+    page: imgsState.page,
     fetchData: (query: string, isSearch: boolean, page: number) => fetchData(query, isSearch, page)
   }
 }

@@ -4,7 +4,7 @@ type fetchState = {
 }
 
 type actionType = {
-  type: string,
+  type: 'FETCH_INIT' | 'FETCH_SUCCESS' | 'FETCH_FAILURE',
   payload?: any,
 }
 

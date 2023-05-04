@@ -4,7 +4,7 @@ import { ImageContext } from "../context/ImageContext"
 
 const SearchField = () => {
   const [searchValue, setSearchValue] = useState('');
-  const { fetchData, searchText, setSearchText, page, setPage, isLoading } = useContext(ImageContext)
+  const { fetchData, searchText, setSearchText, page } = useContext(ImageContext)
 
   const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
@@ -12,7 +12,6 @@ const SearchField = () => {
 
   const handleSearchButton = () => {
     fetchData(searchValue, true, 1);
-    setPage(1);
     setSearchText!(searchValue);
     setSearchValue("");
   }
@@ -20,7 +19,6 @@ const SearchField = () => {
   const handleSearchEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       fetchData(searchValue, true, 1);
-      setPage(1);
       setSearchText!(searchValue);
       setSearchValue("");
     }
@@ -28,7 +26,6 @@ const SearchField = () => {
 
   const loadMore = () => {
     fetchData(searchText, false, page + 1);
-    setPage(prev => prev + 1);
   }
 
   return (

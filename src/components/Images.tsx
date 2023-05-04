@@ -4,21 +4,15 @@ import Image from "./Image"
 import Skeleton from "./Skeleton"
 
 const Images = () => {
-  const { images, isLoading, searchText } = useContext(ImageContext);
+  const { images, oldImages, isLoading, searchText } = useContext(ImageContext);
   const oldData = useRef([] as any)
-
-  useEffect(() => {
-    return () => {
-      oldData.current = images;
-    }
-  })
   
   let content;
 
   if(isLoading) {
     content = (
       <>
-        {oldData.current.map((data: any, i: number) => <Image key={i} data={data}></Image>)}
+        {oldImages.map((data: any, i: number) => <Image key={i} data={data}></Image>)}
         <Skeleton item={10}></Skeleton>
       </>)
   } else {

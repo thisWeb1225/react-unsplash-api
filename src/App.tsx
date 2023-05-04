@@ -8,15 +8,15 @@ import { ImageContext } from './context/ImageContext';
 
 function App() {
   const [searchText, setSearchText] = useState('cat')
-  const { images, isLoading, error, fetchData, page, setPage } = useFetchImgs('cat');
+  const { images, oldImages, isLoading, error, fetchData, page } = useFetchImgs('cat');
 
   const value = {
     images,
+    oldImages,
     isLoading,
     error,
     fetchData,
     page,
-    setPage,
     searchText,
     setSearchText,
   }
