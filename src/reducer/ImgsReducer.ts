@@ -9,8 +9,8 @@ export type ImgType = {
 
 type ImgsReducerType = {
   newData: ImgType[],
-  oldData: ImgType[],
   page: number,
+  isSearch: boolean
 }
 
 type actionType = {
@@ -20,8 +20,8 @@ type actionType = {
 
 export const imgsReducerInitState: ImgsReducerType = {
   newData: [],
-  oldData: [],
-  page: 1
+  page: 1,
+  isSearch: true
 }
 
 const ImgsReducer = (state: ImgsReducerType, action: actionType) => {
@@ -30,15 +30,15 @@ const ImgsReducer = (state: ImgsReducerType, action: actionType) => {
       return {
         ...state,
         newData: action.payload,
-        oldData: [],
         page: 2,
+        isSearch: true,
       };
     case 'LOADMORE':
       return {
         ...state,
         newData: [...state.newData, ...action.payload],
-        oldData: [...state.newData],
         page: state.page + 1,
+        isSearch: false,
       };
     default:
       throw new Error(`Error action type: ${action.type}`);

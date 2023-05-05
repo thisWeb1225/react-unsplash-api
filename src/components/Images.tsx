@@ -1,20 +1,33 @@
 import { useContext, useRef, useEffect } from "react"
 import { ImageContext } from "../context/ImageContext"
+import { ImgType } from "../reducer/imgsReducer"
 import Image from "./Image"
 import Skeleton from "./Skeleton"
 
 const Images = () => {
-  const { images, oldImages, isLoading, searchText } = useContext(ImageContext);
-  const oldData = useRef([] as any)
-  
+  const { images, isLoading, searchText, isSearch } = useContext(ImageContext);
+  const oldData = useRef<ImgType[]>([]);
+
+  useEffect(() => {
+    oldData.current = images;
+  }, [images])
+
   let content;
 
-  if(isLoading) {
-    content = (
-      <>
-        {oldImages.map((data: any, i: number) => <Image key={i} data={data}></Image>)}
+  if (isLoading) {
+
+    if (isSearch) {
+      content = (
         <Skeleton item={10}></Skeleton>
-      </>)
+      )
+    } else {
+      content = (
+        <>
+          {oldData.current.map((data: any, i: number) => <Image key={i} data={data}></Image>)}
+          <Skeleton item={10}></Skeleton>
+        </>)
+    }
+   
   } else {
     content = (
       <>

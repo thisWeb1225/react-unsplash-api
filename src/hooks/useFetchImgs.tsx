@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer
+ } from "react";
 import fetchUnsplashImgs from "../api/api";
 import fetchDataReducer from "../reducer/fetchReducer";
 import imgsReducer, {imgsReducerInitState} from "../reducer/imgsReducer";
 
 const useFetchImgs = (query: string) => {
-  const [images, setImages] = useState([] as any);
-  const [page, setPage] = useState(1);
 
   const [fetchDataState, fetchDataDispatch] = useReducer(fetchDataReducer, {
     isLoading: false,
@@ -44,7 +43,7 @@ const useFetchImgs = (query: string) => {
 
   return {
     images: imgsState.newData,
-    oldImages: imgsState.oldData,
+    isSearch: imgsState.isSearch,
     isLoading: fetchDataState.isLoading,
     error: fetchDataState.error,
     page: imgsState.page,
