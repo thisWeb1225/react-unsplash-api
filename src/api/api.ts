@@ -7,6 +7,7 @@ const fetchUnsplashImgs = async (query: string, page: number = 1) => {
     params: {
       query,
       page,
+      per_page: 20,
       client_id: import.meta.env.VITE_UNSPLASH_ACCESS_KEY
     }
   });

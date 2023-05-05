@@ -1,46 +1,23 @@
 import { useContext, useRef, useEffect } from "react"
 import { ImageContext } from "../context/ImageContext"
 import { ImgType } from "../reducer/imgsReducer"
-import Image from "./Image"
+import ImagesCol from "./ImagesCol"
 import Skeleton from "./Skeleton"
 
+
 const Images = () => {
-  const { images, isLoading, searchText, isSearch } = useContext(ImageContext);
-  const oldData = useRef<ImgType[]>([]);
+  const { searchText } = useContext(ImageContext);
+  // const oldData = useRef<ImgType[]>([]);
 
-  useEffect(() => {
-    oldData.current = images;
-  }, [images])
-
-  let content;
-
-  if (isLoading) {
-
-    if (isSearch) {
-      content = (
-        <Skeleton item={10}></Skeleton>
-      )
-    } else {
-      content = (
-        <>
-          {oldData.current.map((data: any, i: number) => <Image key={i} data={data}></Image>)}
-          <Skeleton item={10}></Skeleton>
-        </>)
-    }
-   
-  } else {
-    content = (
-      <>
-        {images.map((data: any, i: number) => <Image key={i} data={data}></Image>)}
-      </>
-    )
-  }
+  // useEffect(() => {
+  //   oldData.current = images;
+  // }, [images])
 
   return (
     <>
       <h2 className="text-center mt-6 underline text-2xl">Results for {searchText || 'cat'}</h2>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 my-10 max-w-7xl mx-auto px-4">
-        {content}
+      <div className="flex flex-wrap justify-center gap-4 my-10 w-full px-4">
+        <ImagesCol colNumber={4}></ImagesCol>
       </div>
     </>
   )

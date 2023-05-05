@@ -29,7 +29,7 @@ const useFetchImgs = (query: string) => {
     } catch (err: any) {
       fetchDataDispatch({type:'FETCH_FAILURE', payload: err});
     } finally {
-      setTimeout(() => fetchDataDispatch({type:'FETCH_SUCCESS'}), 1000)
+      fetchDataDispatch({type:'FETCH_SUCCESS'})
     }
   }, [query])
 
