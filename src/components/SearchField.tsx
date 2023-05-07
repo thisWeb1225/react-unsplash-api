@@ -29,9 +29,9 @@ const SearchField = () => {
   }
 
   return (
-    <div className="flex">
+    <div className="flex gap-4 text-sm/4 px-4 flex-col sm:flex-row">
       <input
-        className="bg-gray-50 border border-gray-300 text-sm w-full indent-2 p-2.5 outline-none focus:border-blue-500 focus:ring-2 rounded-tl rounded-bl"
+        className="bg-gray-50  w-full px-4 py-3 outline-none rounded"
         type="search"
         placeholder="Search Anything..."
         value={searchValue}
@@ -39,11 +39,10 @@ const SearchField = () => {
         onKeyDown={handleSearchEnter}
       />
       <button
-        className="bg-blue-600 px-6 py-2.5 text-white rounded-tr rounded-br focus:ring-2 focus:ring-blue-300 disabled:bg-gray-400"
+        className="bg-slate-900 px-6 py-3 text-white rounded hover:bg-slate-800 duration-[400ms]"
         onClick={handleSearchButton}
         disabled={!searchValue}
       >Search</button>
-      <button className="bg-pink-200 text-slate-700" onClick={loadMore}>Load More</button>
     </div>
   )
 }
