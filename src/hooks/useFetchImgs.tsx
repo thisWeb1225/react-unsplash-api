@@ -20,6 +20,10 @@ const useFetchImgs = (query: string) => {
       const res = await fetchUnsplashImgs(query, page);
       const imgs = await res.data.results;
 
+      if (imgs.length === 0) {
+        imgsDispatch({type:'NOMORE', payload: []});
+      }
+
       if (isSearch) {
         imgsDispatch({type:'SEARCH', payload: imgs});
       } else {
@@ -44,9 +48,10 @@ const useFetchImgs = (query: string) => {
   return {
     images: imgsState.newData,
     isSearch: imgsState.isSearch,
+    page: imgsState.page,
+    noMoreImg: imgsState.noMoreImg,
     isLoading: fetchDataState.isLoading,
     error: fetchDataState.error,
-    page: imgsState.page,
     fetchData: (query: string, isSearch: boolean, page: number) => fetchData(query, isSearch, page)
   }
 }

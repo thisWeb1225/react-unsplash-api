@@ -7,8 +7,8 @@ import useFetchImgs from './hooks/useFetchImgs';
 import { ImageContext } from './context/ImageContext';
 
 function App() {
-  const [searchText, setSearchText] = useState('cat');
-  const { images, isSearch, isLoading, error, fetchData, page } = useFetchImgs('mountains');
+  const [searchText, setSearchText] = useState('mountains');
+  const { images, isSearch, isLoading, error, fetchData, page, noMoreImg } = useFetchImgs('mountains');
 
   const value = {
     images,
@@ -19,6 +19,7 @@ function App() {
     searchText,
     setSearchText,
     isSearch,
+    noMoreImg,
   }
 
   return (

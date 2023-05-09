@@ -10,18 +10,20 @@ export type ImgType = {
 type ImgsReducerType = {
   newData: ImgType[],
   page: number,
-  isSearch: boolean
+  isSearch: boolean,
+  noMoreImg: boolean
 }
 
 type actionType = {
-  type: 'SEARCH' | 'LOADMORE',
+  type: 'SEARCH' | 'LOADMORE' | 'NOMORE',
   payload: ImgType[],
 }
 
 export const imgsReducerInitState: ImgsReducerType = {
   newData: [],
   page: 1,
-  isSearch: true
+  isSearch: true,
+  noMoreImg: false,
 }
 
 const ImgsReducer = (state: ImgsReducerType, action: actionType) => {
@@ -32,6 +34,7 @@ const ImgsReducer = (state: ImgsReducerType, action: actionType) => {
         newData: action.payload,
         page: 2,
         isSearch: true,
+        noMoreImg: false,
       };
     case 'LOADMORE':
       return {
@@ -39,7 +42,14 @@ const ImgsReducer = (state: ImgsReducerType, action: actionType) => {
         newData: [...state.newData, ...action.payload],
         page: state.page + 1,
         isSearch: false,
+        noMoreImg: false,
       };
+    case 'NOMORE': {
+      return {
+        ...state,
+        noMoreImg: true,
+      };
+    }
     default:
       throw new Error(`Error action type: ${action.type}`);
   }

@@ -1,12 +1,9 @@
 import { useContext, useRef, useEffect, useState } from "react"
 import { ImageContext } from "../context/ImageContext"
-import { ImgType } from "../reducer/imgsReducer"
 import ImagesCol from "./ImagesCol"
-import Skeleton from "./Skeleton"
-
 
 const Images = () => {
-  const { searchText } = useContext(ImageContext);
+  const { searchText, noMoreImg } = useContext(ImageContext);
   const [ colNumber, setColNumber ] = useState(4)
 
   useEffect(() => {
@@ -27,11 +24,15 @@ const Images = () => {
   }, [])
 
   return (
-    <div className="bg-slate-900">
-      <h2 className="text-center underline text-2xl text-slate-50 pt-10">Results for {searchText || 'cat'}</h2>
-      <div className="flex flex-wrap justify-center gap-4 w-full px-4 py-4 sm:px-8 lg:px-16">
+    <div className="bg-slate-900 px-4 py-4 sm:px-8 lg:px-16">
+      <h2 className="font-bold text-md text-slate-50 py-10">{searchText.toUpperCase() || 'mountains'}</h2>
+      <div className="flex flex-wrap justify-center gap-4">
         <ImagesCol colNumber={colNumber}></ImagesCol>
       </div>
+      {noMoreImg 
+      ? (<p className="text-slate-50 text-center pb-20">There are no more images, you can search a new keyword！ </p>)
+      : <></> 
+      }
     </div>
   )
 }

@@ -17,10 +17,9 @@ const ImagesCol = ({ colNumber }: PropsType) => {
   if (isLoading) {
     content = (
       <>
-        {chunkedImages.map((val: any[]) => (
-          <div className="flex flex-col gap-4 flex-1">
-            {val.map((data: any, i: number) => <Image key={i} data={data}></Image>)}
-            <Skeleton></Skeleton>
+        {chunkedImages.map((val: any[], i: number) => (
+          <div key={i} className="flex flex-col gap-4 flex-1">
+            {val.map((data: any, j: number) => <Image key={`${i}-${j}`} data={data}></Image>)}
             <Skeleton></Skeleton>
           </div>
         ))}
@@ -29,9 +28,9 @@ const ImagesCol = ({ colNumber }: PropsType) => {
   } else {
     content = (
       <>
-        {chunkedImages.map((val: any[]) => (
-          <div className="flex flex-col gap-4 flex-1">
-            {val.map((data: any, i: number) => <Image key={i} data={data}></Image>)}
+        {chunkedImages.map((val: any[], i: number) => (
+          <div key={i} className="flex flex-col gap-4 flex-1">
+            {val.map((data: any, j: number) => <Image key={`${i}-${j}`} data={data}></Image>)}
           </div>
         ))}
       </>

@@ -4,7 +4,7 @@ import { ImageContext } from "../context/ImageContext"
 
 const SearchField = () => {
   const [searchValue, setSearchValue] = useState('');
-  const { fetchData, searchText, setSearchText, page } = useContext(ImageContext)
+  const { fetchData, searchText, setSearchText, page, noMoreImg } = useContext(ImageContext)
 
   const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
@@ -24,12 +24,35 @@ const SearchField = () => {
     }
   }
 
-  const loadMore = () => {
-    fetchData(searchText, false, page + 1);
-  }
+  const observer = useRef<IntersectionObserver>();
+  useEffect(() => {
+    let shouldUpdated = true;
+    const loadMore = () => {
+      fetchData(searchText, false, page + 1);
+    }
+
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && shouldUpdated && !noMoreImg) {
+            loadMore()
+        }
+
+        if (noMoreImg) {
+          observer.current!.disconnect();
+        }
+      }
+    ), {};
+
+    observer.current.observe(document.querySelector('.footer')!);
+
+    return () => {
+      if (observer.current) observer.current.disconnect();
+      shouldUpdated = false;
+    }
+  }, [searchText, page])
 
   return (
-    <div className="flex gap-4 text-sm/4 px-4 flex-col sm:flex-row">
+    <div className="flex gap-4 text-xs px-4 flex-col sm:flex-row">
       <input
         className="bg-gray-50  w-full px-4 py-3 outline-none rounded"
         type="search"

@@ -7,6 +7,7 @@ type ImageContextType = {
   error: any,
   fetchData: (query: string, isSearch: boolean, page: number) => Promise<void>,
   page: number,
+  noMoreImg: boolean,
   searchText: string,
   setSearchText?: React.Dispatch<React.SetStateAction<string>>,
   isSearch: boolean,
